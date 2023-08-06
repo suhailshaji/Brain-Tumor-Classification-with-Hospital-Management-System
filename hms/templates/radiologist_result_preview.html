@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- index22:59-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  
+    <link rel="shortcut" type="image/x-icon"  href= "{{ url_for('static',filename='../static/assets/img/favicon.ico') }}">
+    <title>Hospital Management System</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/assets/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/assets/css/font-awesome.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/assets/css/style.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+
+    <!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.min.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+	<![endif]-->
+</head>
+<style>
+    .patient-details-card {
+    background-color: #46c20d42;
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.card-body {
+    color: #333;
+}
+
+strong {
+    font-weight: bold;
+}
+
+    #dob_formatted {
+        color: green;
+    }
+    .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 800px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        .img-class {
+            width: 100%;
+            height: auto;
+        }
+        .close {
+            position: absolute;
+            top: 80px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+</style>
+<div class="main-wrapper">
+    <div class="header">
+        <div class="header-left">
+            <a href="index-2.html" class="logo">
+                <img src="{{ url_for('static',filename='../static/assets/img/logo.png')}}" width="35" height="35" alt=""> <span>HMS</span>
+            </a>
+        </div>
+        <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+                <li class="nav-item dropdown d-none d-sm-block">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right">3</span></a>
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div class="drop-scroll">
+                            <ul class="notification-list">
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">
+												<img alt="John Doe" src="{{ url_for('static',filename='../static/assets/img/user.jpg')}}" class="img-fluid">
+											</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
+												<p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">V</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
+												<p class="noti-time"><span class="notification-time">6 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">L</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
+												<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">G</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
+												<p class="noti-time"><span class="notification-time">12 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">V</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
+												<p class="noti-time"><span class="notification-time">2 days ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="topnav-dropdown-footer">
+                            <a href="activities.html">View all Notifications</a>
+                        </div>
+                    </div>
+                </li>
+        <li class="nav-item dropdown d-none d-sm-block">
+            <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right">8</span></a>
+        </li>
+        <li class="nav-item dropdown has-arrow">
+            <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                <span class="user-img">
+                    <img class="rounded-circle" src="{{ url_for('static',filename='../static/assets/img/user.jpg')}}" width="24" alt="Admin">
+                    <span class="status online"></span>
+                </span>
+                <span>Radiologist</span>
+            </a>
+            <div class="dropdown-menu">
+    
+                <a class="dropdown-item" href="/edit_profile">My Profile</a>
+                <a class="dropdown-item" href="/login">Logout</a>
+            </div>
+        </li>
+    </ul>
+    <div class="dropdown mobile-user-menu float-right">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="profile.html">My Profile</a>
+            <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+            <a class="dropdown-item" href="settings.html">Settings</a>
+            <a class="dropdown-item" href="/public.login">Logout</a>
+        </div>
+    </div>
+</div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">Main</li>
+                        <li >
+                            <a href="/radiologist_home"><i class="fa fa-user"></i> <span>MRI Request</span></a>
+                        </li>
+                        <li class="active">
+                            <a href="#"><i class="fa fa-user"></i> <span>MRI HOME</span></a>
+                        </li>
+						<!-- <li>
+                            <a href="/online_lab"><i class="fa fa-user-md"></i> <span>View Appointments</span></a>
+                        </li>
+                        -->
+                    
+                      
+                    </li> 
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+
+<div class="page-wrapper">
+    <div class="content">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+
+            </div>
+        </div>
+       <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <h2 class="page-title">Brain Tumor Detection Result {{detetcion}}</h2>
+                <div class="alert alert-info">
+                    <p>Prediction Result:  <b style="text-transform: uppercase;"> {{detection}}</b></p> 
+                    <div>
+                        <!-- <img src="/static/MRI_images/{{ file_path }}" alt="MRI Image"> -->
+                        <button class="btn btn-warning" onclick="openModal()">View MRI</button>
+                    </div>
+                </div>
+               
+                 <!-- The modal -->
+                    <div id="myModal" class="modal">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <div class="modal-content">
+                            <img class="img-class" src="/static/MRI_images/{{ file_path }}" alt="MRI Image">
+                        </div>
+                    </div>
+                
+                    <!-- <img src="{{ url_for('static', filename='/MRI_images/Tr-me_0011.1e37a7d46762417689198baa52ba7c4c.jpg' )}}" alt="MRI Image"> -->
+                    <!-- <img src="{{ url_for('static', filename='/MRI_images/' ~ file_path )}}" alt="MRI Image"> -->
+                    
+             
+         
+                <div class="card">
+                    <div class="card-body">
+                        {% if detection == 'Glioma' %}
+                        <h4 class="card-title">Glioma Information</h4>
+                        <p>
+                            Glioma is a type of tumor that arises from the glial cells in the brain.
+                            It is usually malignant and can be aggressive. Gliomas are graded based on their
+                            aggressiveness, with Grade IV (glioblastoma multiforme) being the most aggressive.
+                            Symptoms of glioma may include headaches, seizures, cognitive impairment, and
+                            changes in personality. Treatment options for glioma may include:
+                            <ul>
+                                <li>Surgery to remove the tumor, if possible</li>
+                                <li>Radiation therapy to target remaining tumor cells</li>
+                                <li>Chemotherapy to target cancer cells</li>
+                                <li>Targeted therapies that attack specific molecular features of the tumor</li>
+                            </ul>
+                        </p>
+                        {% elif detection == 'Meningioma' %}
+                        <h4 class="card-title">Meningioma Information</h4>
+                        <p>
+                            Meningioma is a tumor that forms in the meninges, which are the protective
+                            layers surrounding the brain and spinal cord. Most meningiomas are benign,
+                            and they often grow slowly. Symptoms of meningioma may depend on the location
+                            and size of the tumor and may include headaches, seizures, vision problems,
+                            and weakness in the limbs. Treatment options for meningioma may include:
+                            <ul>
+                                <li>Observation and regular monitoring for slow-growing, asymptomatic tumors</li>
+                                <li>Surgery to remove the tumor, if necessary or symptomatic</li>
+                                <li>Radiation therapy for tumors that are difficult to remove or recurring</li>
+                                <li>Targeted therapy or chemotherapy for certain cases</li>
+                            </ul>
+                        </p>
+                        {% elif detection == 'pituitary' %}
+                        <h4 class="card-title">Pituitary Tumor Information</h4>
+                        <p>
+                            Pituitary tumors are growths that develop in the pituitary gland, a small gland located
+                            at the base of the brain. Some pituitary tumors are benign, while others may be malignant.
+                            Symptoms of pituitary tumors depend on whether they are functional (secreting hormones)
+                            or non-functional. Symptoms may include hormonal imbalances, vision problems, headaches,
+                            and changes in weight. Treatment options for pituitary tumors may include:
+                            <ul>
+                                <li>Medication to control hormone secretion for some non-functional tumors</li>
+                                <li>Surgery to remove the tumor, especially if causing hormone imbalances or vision issues</li>
+                                <li>Radiation therapy for tumors that cannot be removed surgically</li>
+                                <li>Hormone replacement therapy for hormone deficiencies caused by the tumor or treatment</li>
+                            </ul>
+                        </p>
+                        {% elif detection == 'No Tumor' %}
+                        <h4 class="card-title">No Tumor Detected</h4>
+                        <p>
+                            The brain scan did not detect any tumors. However, it is essential to follow
+                            up with your healthcare provider for further evaluation and monitoring if
+                            you have any concerning symptoms.
+                        </p>
+                        {% else %}
+                        <h4 class="card-title">No Tumor</h4>
+                        <p>
+                            The brain scan did not detect any tumors. However, it is essential to follow
+                            up with your healthcare provider for further evaluation and monitoring if
+                            you have any concerning symptoms.
+                        </p>
+                        {% endif %}
+                    </div>
+                    </div>
+                </div>
+                     <!-- Consult Radiologist Card -->
+          
+
+
+
+
+
+
+            </div>
+        </div>
+        <div class="card mt-4 patient-details-card">
+            <div class="card-body">
+                <h4 class="card-title">Confirm Result</h4>
+                <p>
+                    <strong>Patient ID:</strong> {{ data_patient[0].patient_id }}<br>
+                    <strong>Appointment ID:</strong> {{ appointment_id }}<br>
+                    <strong>Patient Name:</strong> {{ data_patient[0].first_name }} {{ data_patient[0].last_name }}<br>
+                    <strong>MRI Result:</strong> {{ detection }}</strong> <br><!-- Add other patient details as needed -->
+                    <strong>Doctor Name:</strong> Dr.{{ doctor_name }} <!-- Add other patient details as needed -->
+                </p>
+                <form method="post" action="/submit_mri_result">
+                    <!-- Patient details and result section -->
+                    <!-- ... (your existing code) -->
+                
+                    <!-- Add hidden input fields for file_path, appointment_id, and detection -->
+                    <input type="hidden" name="file_path" value="{{ file_path }}">
+                    <input type="hidden" name="appointment_id" value="{{ appointment_id }}">
+                    <input type="hidden" name="detection" value="{{ detection }}">
+                    <input type="hidden" name="patient_email" value="{{ patient_email }}">
+                
+                    <!-- Add a submit button -->
+                    <button type="submit" class="btn btn-danger">Submit MRI Result</button>
+                </form>
+            </div>
+        </div>
+        
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+    </div>
+    <div id="popupAlert" class="alert alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 9999; color: #fff;">
+        {% if detection == 'No Tumour' %}
+            <div class="alert alert-success" style="background-color: #28a745;">
+                Patient brain CT scan shows normal. No tumor detected.
+            </div>
+        {% else %}
+            <div class="alert alert-info" style="background-color: #dc3545;">
+                Patient have been diagnosed with <b style="text-transform: uppercase;">{{ detection }}</b> tumor.
+            </div>
+        {% endif %}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+    <script>
+        // Auto-close the popup after 5 seconds (5000 milliseconds)
+        $(document).ready(function() {
+            setTimeout(function() {
+                $("#popupAlert").alert('close');
+            }, 5000);
+        });
+    </script>
+     <script>
+        // JavaScript functions to handle the modal
+        function openModal() {
+            document.getElementById("myModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+    </script>
+
+    <!-- Add Bootstrap JS and jQuery (if needed) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static',filename='../static/assets/js/jquery-3.2.1.min.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/popper.min.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/bootstrap.min.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/jquery.slimscroll.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/Chart.bundle.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/chart.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/app.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

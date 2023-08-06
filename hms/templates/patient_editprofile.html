@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- index22:59-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  
+    <link rel="shortcut" type="image/x-icon"  href= "{{ url_for('static',filename='../static/assets/img/favicon.ico') }}">
+    <title>Hospital Management System</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/assets/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/assets/css/font-awesome.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/assets/css/style.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <!-- Add these lines in the <head> section of your HTML -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+
+    <!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.min.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+	<![endif]-->
+</head>
+<style>
+    #dob_formatted {
+        color: green;
+    }
+    a {
+    text-decoration: none;
+  }
+
+    .body{
+        text-decoration: none;
+    }
+    /* Custom styles for the modal */
+  .modal {
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity to control the black background */
+  }
+
+  .flash-messages {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .flash-messages li {
+    color: #ffffff;
+    background-color: #28a745; /* Green color for success messages */
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+   
+        .img-class {
+            width: 100%;
+            height: auto;
+        }
+        .close {
+            position: absolute;
+            top: 80px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+</style>
+<div class="main-wrapper">
+    <div class="header">
+        <div class="header-left">
+            <a href="index-2.html" class="logo">
+                <img src="{{ url_for('static',filename='../static/assets/img/logo.png')}}" width="35" height="35" alt=""> <span>HMS</span>
+            </a>
+        </div>
+        <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+                <li class="nav-item dropdown d-none d-sm-block">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right">3</span></a>
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div class="drop-scroll">
+                            <ul class="notification-list">
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">
+												<img alt="John Doe" src="{{ url_for('static',filename='../static/assets/img/user.jpg')}}" class="img-fluid">
+											</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
+												<p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">V</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
+												<p class="noti-time"><span class="notification-time">6 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">L</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
+												<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">G</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
+												<p class="noti-time"><span class="notification-time">12 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">V</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
+												<p class="noti-time"><span class="notification-time">2 days ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="topnav-dropdown-footer">
+                            <a href="activities.html">View all Notifications</a>
+                        </div>
+                    </div>
+                </li>
+        <li class="nav-item dropdown d-none d-sm-block">
+            <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right">8</span></a>
+        </li>
+        <li class="nav-item dropdown has-arrow">
+            <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                <span class="user-img">
+                    <img class="rounded-circle" src="{{ url_for('static',filename='../static/assets/img/user.jpg')}}" width="24" alt="Admin">
+                    <span class="status online"></span>
+                </span>
+                <span>Patient Login</span>
+            </a>
+            <div class="dropdown-menu">
+        
+                <a class="dropdown-item" href="/edit_profile_patient">Edit Profile</a>
+                <a class="dropdown-item" href="/login">Logout</a>
+            </div>
+        </li>
+    </ul>
+    <div class="dropdown mobile-user-menu float-right">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="profile.html">My Profile</a>
+            <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+            <a class="dropdown-item" href="settings.html">Settings</a>
+            <a class="dropdown-item" href="/login">Logout</a>
+        </div>
+    </div>
+</div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">Main</li>
+                        <li >
+                            <a href="/patient_home"><i class="fa fa-user"></i> <span>Appointment</span></a>
+                        </li>
+						<li>
+                            <a href="/online_lab"><i class="fa fa-user-md"></i> <span>Online Lab</span></a>
+                        </li>
+                        <li>
+                            <a href="/myappointment"><i class="fa fa-user-md"></i> <span>My Appointment</span></a>
+                        </li>
+                        <li  class="active">
+                            <a href="#"><i class="fa fa-user-md"></i> <span>My Profile</span></a>
+                        </li>
+                       
+                    
+                      
+                    </li> 
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+<div class="page-wrapper">
+    <div class="content">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <h4 class="page-title">Edit Profile</h4>
+            </div>
+            
+             </div>
+                <!-- Modal -->
+            <!-- Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="successModalLabel">Alert</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              <ul class="flash-messages">
+                {% for category, message in messages %}
+                  {% if category == 'success' %}
+                    <li class="success-message">{{ message }}</li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            {% endif %}
+          {% endwith %}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Add this script to trigger the modal -->
+  <script>
+    $(document).ready(function() {
+      if ($(".success-message").length) {
+        $('#successModal').modal('show');
+      }
+    });
+  </script>
+  
+  
+
+       
+                    <div class="row">
+                        <div class="col-lg-8 offset-lg-2">
+                            <form action="/edit_patient_profile_get" method="POST"   enctype ="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>First Name <span class="text-danger">*</span></label>
+                                            <input class="form-control" type="text" value="{{patient_data[0]['first_name']}}"  readonly name="first_name">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Last Name</label>
+                                            <input class="form-control" type="text" value="{{patient_data[0]['last_name']}}" readonly name="last_name">
+                                        </div>
+                                    </div>                                   
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Email <span class="text-danger">*</span></label>
+                                            <input class="form-control" type="email"   value="{{patient_data[0]['email']}}" name="email">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>
+                                                Password
+                                                <i class="far fa-eye toggle-password-btn"></i>
+                                            </label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="password-input" value="{{patient_login[0]['password']}}" name="password">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-primary generate-password-btn">
+                                                        <i class="fas fa-random"></i> Generate
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <small id="password-info" class="form-text text-muted"></small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Date of Birth</label>
+                                            <div class="cal-icon">
+                                                <input type="text" class="form-control" value="{{patient_data[0]['date_of_birth']}}" readonly name="date_of_birth" id="date_of_birth_input">
+                                            </div>
+                                            <div id="dob_formatted"></div>
+                                     
+                                        </div>
+                                      
+                                    </div>
+                                    
+                                        <div class="col-sm-6">
+                                            <div class="form-group gender-select">
+                                                <label class="gen-label">Gender:</label>
+                                                <div class="form-check-inline">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" name="gender" class="form-check-input" value="Male" {% if patient_data[0]['gender'] == 'Male' %} checked {% endif %} disabled>Male
+                                                    </label>
+                                                </div>
+                                                <div class="form-check-inline">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" name="gender" class="form-check-input" value="Female" {% if patient_data[0]['gender'] == 'Female' %} checked {% endif %} disabled>Female
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                   
+                                    
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label>Address</label>
+                                                    <input type="text" class="form-control"  value="{{patient_data[0]['address']}}" name="address">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-md-6 col-lg-3">
+                                                <div class="form-group">
+                                                    <label>Country</label>
+                                                    <select class="form-control select" name="country" id="country-select">
+                                                        <option value="India" {% if patient_data[0]['country'] == 'India' %} selected {% endif %}>India</option>
+                                                        <option value="USA" {% if patient_data[0]['country'] == 'USA' %} selected {% endif %}>USA</option>
+                                                        <option value="UK" {% if patient_data[0]['country'] == 'UK' %} selected {% endif %}>United Kingdom</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-md-6 col-lg-3">
+                                                <div class="form-group">
+                                                    <label>City</label>
+                                                    <div>
+                                                        <input type="text" class="form-control" value="{{patient_data[0]['city']}}"  name="city" id="date_of_birth_input">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-md-6 col-lg-3">
+                                                <div class="form-group">
+                                                    <label>State/Province</label>
+                                                    <div>
+                                                        <input type="text" class="form-control" value="{{patient_data[0]['state']}}"  name="state" id="date_of_birth_input">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-md-6 col-lg-3">
+                                                <div class="form-group">
+                                                    <label id="postcode-label">Postal Code</label>
+                                                    <input type="text" class="form-control" name="postal_code" value="{{ patient_data[0]['postal_code'] }}">
+                                                </div>
+                                            </div>
+                                            
+                                  
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Phone Number</label>
+                                            <div class="input-group">
+                                              
+                                                <span class="input-group-text" id="phone-code">+1</span>
+                                                <input type="text" class="form-control" id="phone-input" value="{{ patient_data[0]['phone'] }}" name="phone">
+                                            </div>
+                                        
+                              
+                                </div>
+                              
+                                <div class="m-t-20 text-center">
+                                    <button class="btn btn-primary submit-btn">Update</button>
+                                </div>
+    
+                              
+                            </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function generatePassword() {
+        const length = 10; // Desired password length
+        const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()'; // Characters to include in the password
+        let password = '';
+
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * charset.length);
+            password += charset.charAt(randomIndex);
+        }
+
+        return password;
+    }
+
+    // Function to display the generated password in the input field and label
+    function displayGeneratedPassword() {
+        const passwordInput = document.getElementById('password-input');
+        const passwordInfo = document.getElementById('password-info');
+        const generatedPassword = generatePassword();
+
+        passwordInput.value = generatedPassword;
+        passwordInfo.textContent = 'Generated Password: ' + generatedPassword;
+    }
+
+    // Function to toggle password visibility
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('password-input');
+        const togglePasswordBtn = document.querySelector('.toggle-password-btn');
+        const isPasswordVisible = passwordInput.type === 'text';
+
+        passwordInput.type = isPasswordVisible ? 'password' : 'text';
+        togglePasswordBtn.classList.toggle('active');
+    }
+
+    // Attach event listener to the "Generate Password" button
+    const generatePasswordBtn = document.querySelector('.generate-password-btn');
+    generatePasswordBtn.addEventListener('click', displayGeneratedPassword);
+
+    // Attach event listener to the toggle password button
+    const togglePasswordBtn = document.querySelector('.toggle-password-btn');
+    togglePasswordBtn.addEventListener('click', togglePasswordVisibility);
+
+        </script>   
+   
+
+<script src="{{ url_for('static',filename='../static/assets/js/jquery-3.2.1.min.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/popper.min.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/bootstrap.min.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/jquery.slimscroll.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/Chart.bundle.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/chart.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/app.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

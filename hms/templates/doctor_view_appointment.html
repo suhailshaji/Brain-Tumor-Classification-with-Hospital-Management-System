@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- index22:59-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  
+    <link rel="shortcut" type="image/x-icon"  href= "{{ url_for('static',filename='../static/assets/img/favicon.ico') }}">
+    <title>Hospital Management System</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/assets/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/assets/css/font-awesome.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/assets/css/style.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/smoothness/jquery-ui.css">
+
+
+    <!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.min.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+	<![endif]-->
+</head>
+<style>
+    #dob_formatted {
+        color: green;
+    }
+     /* Custom CSS for the red-input class */
+     .red-input {
+        color: red;
+        border-color: red;
+    }
+    .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 800px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        .img-class {
+            width: 100%;
+            height: auto;
+        }
+        .close {
+            position: absolute;
+            top: 80px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    .MedicalCard__Container {
+            background-color: #0D456D;
+            background-image: linear-gradient(-90deg, #0D456D, #105C90);
+            box-shadow: 0 8px 6px 0 rgba(0, 0, 0, 0.1);
+            width: 550px;
+            height: 250px;
+            border: 1px solid;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            font-size: 20px;
+            padding: 25px;
+            text-transform: capitalize;
+        }
+    .MedicalCard__Row {
+        display: flex;
+    }
+
+    .MedicalCard__Row:nth-child(2) {
+        flex: 1;
+        border-top: 1px solid black;
+    }
+
+    .MedicalCard__Title {
+        flex: 2;
+        white-space: nowrap;
+    }
+
+    .MedicalCard__TimeTo, .MedicalCard__Location, .MedicalCard__Date {
+        flex: 1;
+    }
+
+    .MedicalCard__Location, .MedicalCard__Date {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    .MedicalCard__Title--container {
+        display: flex;
+    }
+
+    .MedicalCard__Title--wrapper {
+        font-size: 22px;
+       
+    }
+
+    .MedicalCard__TimeTo {
+        height: 24px;
+        border-radius: 10px;
+        text-align: center;
+       
+    }
+    .doctor-name-btn {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-bottom: 15px; /* Add some vertical spacing */
+}
+    .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 800px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        .img-class {
+            width: 100%;
+            height: auto;
+        }
+        .close {
+            position: absolute;
+            top: 80px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .diagnosis-suggestions {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        max-height: 100px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+
+    .diagnosis-suggestions li {
+        padding: 5px;
+        cursor: pointer;
+    }
+
+    .diagnosis-suggestions li:hover {
+        background-color: #f1f1f1;
+    }
+</style>
+<div class="main-wrapper">
+    <div class="header">
+        <div class="header-left">
+            <a href="index-2.html" class="logo">
+                <img src="{{ url_for('static',filename='../static/assets/img/logo.png')}}" width="35" height="35" alt=""> <span>HMS</span>
+            </a>
+        </div>
+        <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+                <li class="nav-item dropdown d-none d-sm-block">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right">3</span></a>
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div class="drop-scroll">
+                            <ul class="notification-list">
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">
+												<img alt="John Doe" src="{{ url_for('static',filename='../static/assets/img/user.jpg')}}" class="img-fluid">
+											</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
+												<p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">V</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
+												<p class="noti-time"><span class="notification-time">6 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">L</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
+												<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">G</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
+												<p class="noti-time"><span class="notification-time">12 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">V</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
+												<p class="noti-time"><span class="notification-time">2 days ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="topnav-dropdown-footer">
+                            <a href="activities.html">View all Notifications</a>
+                        </div>
+                    </div>
+                </li>
+        <li class="nav-item dropdown d-none d-sm-block">
+            <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right">8</span></a>
+        </li>
+        <li class="nav-item dropdown has-arrow">
+            <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                <span class="user-img">
+                    <img class="rounded-circle" src="{{ url_for('static',filename='../static/assets/img/user.jpg')}}" width="24" alt="Admin">
+                    <span class="status online"></span>
+                </span>
+                <span>Doctor</span>
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="profile.html">My Profile</a>
+                <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+                <a class="dropdown-item" href="settings.html">Settings</a>
+                <a class="dropdown-item" href="login.html">Logout</a>
+            </div>
+        </li>
+    </ul>
+    <div class="dropdown mobile-user-menu float-right">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="profile.html">My Profile</a>
+            <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+            <a class="dropdown-item" href="settings.html">Settings</a>
+            <a class="dropdown-item" href="/login">Logout</a>
+        </div>
+    </div>
+</div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">Main</li>
+                        <li class="active">
+                            <a href="/doctor_home"><i class="fa fa-user"></i> <span>Appointments</span></a>
+                        </li>
+						<!-- <li>
+                            <a href="/online_lab"><i class="fa fa-user-md"></i> <span>View Appointments</span></a>
+                        </li>
+                        -->
+                    
+                      
+                    </li> 
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+
+
+<div class="page-wrapper">
+    <div class="content">
+        <div class="row">
+            <div class="card-box">
+                <h4 class="card-title">Patient Information</h4>
+                <ul class="nav nav-tabs nav-tabs-solid nav-tabs-rounded nav-justified">
+                    <li class="nav-item"><a class="nav-link active" href="#solid-rounded-justified-tab1" data-toggle="tab">Diagnosis</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#solid-rounded-justified-tab2" data-toggle="tab">Patient Details </a></li>
+                    <li class="nav-item"><a class="nav-link" href="#solid-rounded-justified-tab3" data-toggle="tab">Close Appointment</a></li>
+                    <li class="nav-item"><a class="nav-link btn-outline-danger" href="/doctor_home" >Close Appointment</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="solid-rounded-justified-tab1">
+                        <!-- <form method="post" action="/save_diagnosis_medicines"> -->
+                     
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Appointment ID <span class="text-danger"></span></label>
+                                        <input class="form-control" value= "{{ data[0].appointment_id }}" type="text" readonly>
+                                    </div>
+                                </div>
+                               
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Appointment Date <span class="text-danger"></span></label>
+                                        <input class="form-control" type="email" value= "{{ data[0].appointment_date }}" readonly >
+                                    </div>
+                                </div>
+                                
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Symptom</label>
+                                        <input class="form-control" type="email" value= "{{ data[0].symptoms }}" readonly >
+                                    </div>
+                                  
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        {% if data[0].detection %}
+                                        <label>MRI Result</label>
+                                        <input class="form-control red-input" type="email" value="{{ data[0].detection }}" readonly>
+                                        {% else %}
+
+                                        {% endif %}
+                                    </div>
+                                  
+                                </div>
+                                
+                               
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                {% if data[0].detection %}
+                                                <label> MRI Report</label>
+                                                <p><button class="btn btn-outline-warning" onclick="openModal()">View MRI</button> </p>
+                                                {% else %}
+                                                {% endif %}
+                                            </div>
+                                            <div id="myModal" class="modal">
+                                                <span class="close" onclick="closeModal()">&times;</span>
+                                                <div class="modal-content">
+                                                    <img class="img-class" src="/static/MRI_images/{{ data[0]['MRI_file_path'] }}" alt="MRI Image">
+                                                </div>
+                                            </div>
+                                        </div>
+                                  
+
+                               
+                                        <div class="col-sm-6 col-md-12 col-lg-12">
+                                            <div class="form-group">
+                                                <label>Diagnosis</label>
+                                                <textarea class="form-control" name="diagnosis" id="diagnosisInput" rows="4"></textarea>
+                                                <ul class="diagnosis-suggestions" id="diagnosisSuggestions"></ul>
+                                            </div>
+                                        
+                                        </div>
+
+                                        <div class="col-sm-6 col-md-6 col-lg-12">
+                                            <div class="form-group">
+                                                <div id="medicineFields">
+                                                    <!-- Medicine name input fields will be dynamically added here -->
+                                                </div>
+                                                <button type="button" class="btn btn-outline-primary" onclick="addMedicineField()">Add Medicine</button>
+                                            </div>
+                                        </div>
+                                       
+                                       
+                                    </div>
+                                    <!-- Add the following button below the "Add Medicine" button -->
+                                    <button type="button" class="btn btn-primary" onclick="saveDataToBackend()">Save Diagnosis and Medicines</button>
+                                    {% if data[0].detection %}
+                                    
+                                    {% else %}
+
+                                    <button type="button" class="btn btn-danger" id="requestMRIButton">Request MRI</button>
+
+                                    {% endif %}
+
+
+                                    
+                            
+                                
+                    </div></div></form></div>
+                    <div class="tab-pane" id="solid-rounded-justified-tab2">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Patient ID <span class="text-danger"></span></label>
+                                    <input class="form-control" value= "{{ data[0].patient_id }}" type="text" readonly>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input class="form-control" type="text" value= "{{ data[0].first_name.upper() }} {{ data[0].last_name.upper() }}  " readonly>
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Email <span class="text-danger"></span></label>
+                                    <input class="form-control" type="email" value= "{{ data[0].email }}" readonly >
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Date of Birth</label>
+                                    <input class="form-control" type="email" value= "{{ data[0].date_of_birth }}" readonly >
+                                </div>
+                              
+                            </div>
+                            
+                            
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            <input class="form-control" type="text" value= "{{ data[0].address }}" readonly >
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-3">
+                                        <div class="form-group">
+                                            <label>Country</label>
+                                            <select class="form-control select" name="country"  readonly id="country-select">
+                                                <option value="India">{{ data[0].country }} </option>
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-3">
+                                        <div class="form-group">
+                                            <label>City</label>
+                                        <select class="form-control select"  readonly>
+                                            <option value="India">{{ data[0].city }} </option>
+                                        </select>
+                                 </div></div>
+                                    <div class="col-sm-6 col-md-6 col-lg-3">
+                                        <div class="form-group">
+                                            <label>State/Province</label>
+                                             <select class="form-control select" readonly>
+                                                <option value="India">{{ data[0].state }} </option>
+                                    </select>
+                                    </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-3">
+                                        <div class="form-group">
+                                            <label id="postcode-label">Postal Code/Zip Code</label>
+                                            <input type="text" class="form-control"  readonly value="{{ data[0].postal_code }}">
+                                        </div>
+                                    </div>
+                                </div>
+                    </div>  </div>  </div>
+                    <div class="tab-pane" id="solid-rounded-justified-tab3">
+                        <div class="col-sm-6 col-md-6 col-lg-12">
+
+                            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        const requestMRIButton = document.getElementById('requestMRIButton');
+    
+        requestMRIButton.addEventListener('click', function() {
+            // Disable the button to prevent further clicks
+            requestMRIButton.disabled = true;
+    
+            const appointmentId = "{{ data[0].appointment_id }}";
+            const patientId = "{{ data[0].patient_id }}";
+    
+            const requestData = {
+                appointment_id: appointmentId,
+                patient_id: patientId
+            };
+    
+            fetch('/request_mri', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(result => {
+                // Handle the response if needed
+                console.log(result);
+    
+                // Check if the request was successful
+                if (result.message === 'MRI request successful') {
+                    // Update button text and disable it
+                    requestMRIButton.textContent = 'Request Sent';
+                    // Show an alert indicating success
+                    alert('MRI request has been sent successfully.');
+                } else {
+                    // Re-enable the button and show an alert for other cases (error or unexpected response)
+                    requestMRIButton.disabled = false;
+                    alert('An error occurred while sending the MRI request.');
+                }
+            })
+            .catch(error => {
+                // Re-enable the button and handle errors
+                requestMRIButton.disabled = false;
+                console.error('Error:', error);
+                alert('An error occurred while sending the MRI request.');
+            });
+        });
+    </script>
+    
+    
+
+    <script>
+        function addMedicineField() {
+            const container = document.getElementById("medicineFields");
+            const inputDiv = document.createElement("div");
+            inputDiv.classList.add("form-group");
+            inputDiv.innerHTML = `
+                <label>Medicine Name</label>
+                <input type="text" class="form-control medicine-autocomplete" name="medicine[]" required>
+                <label>Frequency</label>
+                <input type="text" class="form-control" name="frequency[]" placeholder='1-0-1' required>
+            `;
+            container.appendChild(inputDiv);
+            // Enable autocomplete on the newly added input field
+            const allMedicines = [
+                "Paracetamol",
+                "Ibuprofen",
+                "Aspirin",
+                "Amoxicillin",
+                "Lisinopril",
+                "Omeprazole",
+                "Atorvastatin",
+                "Metformin",
+                "Sertraline",
+                "Amlodipine",
+                "Azithromycin",
+                "Ciprofloxacin",
+                "Losartan",
+                "Alprazolam",
+                "Furosemide",
+                "Fluoxetine",
+                "Doxycycline",
+                "Levothyroxine",
+                "Prednisone",
+                "Tramadol",
+                "Montelukast",
+                "Diazepam",
+                "Clarithromycin",
+                "Metronidazole",
+                "Escitalopram",
+                "Bupropion",
+                "Citalopram",
+                "Mirtazapine",
+                "Duloxetine",
+                "Carvedilol",
+                "Cetirizine",
+                "Loratadine",
+                "Clopidogrel",
+                "Rabeprazole",
+                "Quetiapine",
+                "Venlafaxine",
+                "Tamsulosin",
+                "Pioglitazone",
+                "Esomeprazole",
+                "Ranitidine",
+                "Meloxicam",
+                "Naproxen",
+                "Pregabalin",
+                "Cefuroxime",
+                "Levofloxacin",
+                "Famotidine",
+                "Vitamin D",
+                "Vitamin C",
+                "Vitamin B12"
+            ];
+                        
+            $(".medicine-autocomplete").autocomplete({
+        source: allMedicines
+    });
+
+    // Clear the values of the newly added medicine and frequency fields
+    inputDiv.querySelector('.medicine-autocomplete').value = '';
+    inputDiv.querySelector('.form-control[name="frequency[]"]').value = '';
+}
+    </script>
+    <script>
+
+function saveDataToBackend() {
+        const appointmentId = "{{ data[0].appointment_id }}";
+        const diagnosis = document.getElementById('diagnosisInput').value;
+        // const medicines = Array.from(document.querySelectorAll('.medicine-autocomplete')).map(input => input.value);
+        const medicines = Array.from(document.querySelectorAll('.medicine-autocomplete')).map(input => input.value);
+        const frequencies = Array.from(document.querySelectorAll('.form-control[name="frequency[]"]')).map(input => input.value);
+
+        // Combine medicines and frequencies into an array of objects
+        const medicineData = medicines.map((medicine, index) => ({ name: medicine, frequency: frequencies[index] }));
+
+        const data = {
+            appointment_id: appointmentId,
+            diagnosis: diagnosis,
+            medicines: medicineData
+        };
+
+    fetch('/save_diagnosis_medicines', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        // Handle the backend response if needed
+        console.log(result);
+
+        // Show the "Save Success" popup using an alert or your custom modal
+        alert("Data has been saved successfully!");
+
+        // Make the form elements readonly after successful save
+        const formElements = document.querySelectorAll(".form-control");
+        formElements.forEach(element => {
+            element.setAttribute( "readonly");
+        });
+    })
+    .catch(error => {
+        // Handle any errors that occur during the POST request
+        console.error('Error:', error);
+    });
+}
+
+</script>
+
+    <script>
+        const diagnosisInput = document.getElementById('diagnosisInput');
+        const diagnosisSuggestions = document.getElementById('diagnosisSuggestions');
+        const diagnosisOptions = [
+    "Common Cold - Viral Infection",
+    "Influenza - Flu",
+    "Migraine - Headache Disorder",
+    "Hypertension - High Blood Pressure",
+    "Fever - Various Infections",
+    "Headache - Various Causes",
+    "Stomachache - Gastric Problems",
+    "Sore Throat - Pharyngitis",
+    "Cough - Respiratory Infection",
+    "Nausea - Gastrointestinal Distress",
+    "Fatigue - Physical Exhaustion",
+    "Muscle Pain - Muscular Inflammation",
+    "Back Pain - Musculoskeletal Disorder",
+    "Rash - Skin Allergy",
+    "Shortness of Breath - Respiratory Disorder",
+    "Dizziness - Vertigo",
+    "Insomnia - Sleep Disorder",
+    "Allergies - Allergic Reaction",
+    "Joint Pain - Arthritis",
+    "Constipation - Digestive Issue",
+    "Diarrhea - Gastrointestinal Infection",
+    "Bronchitis - Respiratory Infection",
+    "Pneumonia - Lung Inflammation",
+    "Asthma - Chronic Respiratory Condition",
+    "Gastroenteritis - Stomach and Intestinal Inflammation",
+    "Urinary Tract Infection - UTI",
+    "Anxiety - Psychological Condition",
+    "Depression - Psychological Condition",
+    "Insulin Resistance - Prediabetes",
+    "Anemia - Low Red Blood Cells",
+    "Hypothyroidism - Underactive Thyroid",
+    "Hyperthyroidism - Overactive Thyroid",
+    "Osteoarthritis - Joint Degeneration",
+    "Gastroesophageal Reflux Disease - GERD",
+    "Migraine - Headache Disorder",
+    "Eczema - Skin Inflammation",
+    "Hives - Skin Allergy",
+    "Gallstones - Gallbladder Stones",
+    "Kidney Stones - Renal Calculi",
+    "Migraine - Headache Disorder",
+    // Add more diagnosis options as needed
+];
+
+    
+        diagnosisInput.addEventListener('input', function () {
+            const inputValue = this.value.toLowerCase();
+            const matchingOptions = diagnosisOptions.filter(option => option.toLowerCase().includes(inputValue));
+            displaySuggestions(matchingOptions);
+        });
+    
+        diagnosisSuggestions.addEventListener('click', function (event) {
+            if (event.target.tagName === 'LI') {
+                diagnosisInput.value = event.target.textContent;
+                diagnosisSuggestions.innerHTML = '';
+            }
+        });
+    
+        function displaySuggestions(matchingOptions) {
+            const suggestionsHTML = matchingOptions.map(option => `<li>${option}</li>`).join('');
+            diagnosisSuggestions.innerHTML = suggestionsHTML;
+        }
+    </script>
+    
+    <script>
+        // JavaScript functions to handle the modal
+        function openModal() {
+            document.getElementById("myModal").style.display = "block";
+        }
+    
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+    </script>
+    
+    <div class="sidebar-overlay" data-reff=""></div>
+<script src="{{ url_for('static',filename='../static/assets/js/jquery-3.2.1.min.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/popper.min.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/bootstrap.min.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/jquery.slimscroll.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/Chart.bundle.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/chart.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/app.js')}}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>

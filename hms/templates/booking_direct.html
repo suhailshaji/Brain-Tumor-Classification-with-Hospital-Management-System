@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- index22:59-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  
+    <link rel="shortcut" type="image/x-icon"  href= "{{ url_for('static',filename='../static/assets/img/favicon.ico') }}">
+    <title>Hospital Management System</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/assets/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/assets/css/font-awesome.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/assets/css/style.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+
+    <!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.min.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+	<![endif]-->
+</head>
+<style>
+    #dob_formatted {
+        color: green;
+    }
+    .doctor-card {
+        border: 1px solid #f1f1f1;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .doctor-card:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .doctor-card .card-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .doctor-card .card-text {
+        margin-bottom: 10px;
+    }
+
+    .doctor-card .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        padding: 5px 15px;
+    }
+
+    .doctor-card .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+    .MedicalCard__Container {
+            background-color: #0D456D;
+            background-image: linear-gradient(-90deg, #0D456D, #105C90);
+            box-shadow: 0 8px 6px 0 rgba(0, 0, 0, 0.1);
+            width: 550px;
+            height: 250px;
+            border: 1px solid;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            font-size: 20px;
+            padding: 25px;
+            text-transform: capitalize;
+        }
+    .MedicalCard__Row {
+        display: flex;
+    }
+
+    .MedicalCard__Row:nth-child(2) {
+        flex: 1;
+        border-top: 1px solid black;
+    }
+
+    .MedicalCard__Title {
+        flex: 2;
+        white-space: nowrap;
+    }
+
+    .MedicalCard__TimeTo, .MedicalCard__Location, .MedicalCard__Date {
+        flex: 1;
+    }
+
+    .MedicalCard__Location, .MedicalCard__Date {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    .MedicalCard__Title--container {
+        display: flex;
+    }
+
+    .MedicalCard__Title--wrapper {
+        font-size: 22px;
+       
+    }
+
+    .MedicalCard__TimeTo {
+        height: 24px;
+        border-radius: 10px;
+        text-align: center;
+       
+    }
+    .doctor-name-btn {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-bottom: 15px; /* Add some vertical spacing */
+}
+  /* New styles for the outlined button */
+  .doctor-name-btn {
+        background-color: transparent;
+        color: #007bff;
+        border: 2px solid #007bff;
+        padding: 10px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .doctor-name-btn:hover {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+</style>
+<div class="main-wrapper">
+    <div class="header">
+        <div class="header-left">
+            <a href="index-2.html" class="logo">
+                <img src="{{ url_for('static',filename='../static/assets/img/logo.png')}}" width="35" height="35" alt=""> <span>HMS</span>
+            </a>
+        </div>
+        <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+                <li class="nav-item dropdown d-none d-sm-block">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right">3</span></a>
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div class="drop-scroll">
+                            <ul class="notification-list">
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">
+												<img alt="John Doe" src="{{ url_for('static',filename='../static/assets/img/user.jpg')}}" class="img-fluid">
+											</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
+												<p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">V</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
+												<p class="noti-time"><span class="notification-time">6 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">L</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
+												<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">G</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
+												<p class="noti-time"><span class="notification-time">12 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">V</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
+												<p class="noti-time"><span class="notification-time">2 days ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="topnav-dropdown-footer">
+                            <a href="activities.html">View all Notifications</a>
+                        </div>
+                    </div>
+                </li>
+        <li class="nav-item dropdown d-none d-sm-block">
+            <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right">8</span></a>
+        </li>
+        <li class="nav-item dropdown has-arrow">
+            <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                <span class="user-img">
+                    <img class="rounded-circle" src="{{ url_for('static',filename='../static/assets/img/user.jpg')}}" width="24" alt="Admin">
+                    <span class="status online"></span>
+                </span>
+                <span>Patient Login</span>
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="profile.html">My Profile</a>
+                <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+                <a class="dropdown-item" href="settings.html">Settings</a>
+                <a class="dropdown-item" href="login.html">Logout</a>
+            </div>
+        </li>
+    </ul>
+    <div class="dropdown mobile-user-menu float-right">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="profile.html">My Profile</a>
+            <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+            <a class="dropdown-item" href="settings.html">Settings</a>
+            <a class="dropdown-item" href="/login">Logout</a>
+        </div>
+    </div>
+</div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">Main</li>
+                        <li >
+                            <a href="/patient_home"><i class="fa fa-user"></i> <span>Appointment</span></a>
+                        </li>
+						<li >
+                            <a href="/online_lab"><i class="fa fa-user-md"></i> <span>Online Lab</span></a>
+                        </li>
+                        <li class="active">
+                            <a href="#"><i class="fa fa-calendar-check-o"></i> <span>Appointment</span></a>
+                        </li>
+                        <li>
+                            <a href="/myappointment"><i class="fa fa-user-md"></i> <span>My Appointment</span></a>
+                        </li>
+                    
+                      
+                    </li> 
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+
+  <div class="page-wrapper">
+            <div class="content">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2">
+
+                        <div class="MedicalCard__Container">
+                            <div class="MedicalCard__Row">
+                                <div class="MedicalCard__Title">
+                                    <div class="MedicalCard__Title--container">
+                                        <div class="MedicalCard__Title--icon"></div>
+                                        <div class="MedicalCard__Title--wrapper">
+                                            <div class="MedicalCard__Title--title">Patient ID: {{ patient[0]['patient_id'] }}</div>
+                                            <div class="MedicalCard__Title--subTitle">Name: {{ patient[0]['first_name'] }} {{ patient[0]['last_name'] }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="MedicalCard__TimeTo">
+                                    Gender: {{ patient[0]['gender'] }}
+                                    <br>
+                                    DOB: {{ patient[0]['date_of_birth'] }}
+                                </div>
+                            </div>
+                            <div class="MedicalCard__Row">
+                                <div class="MedicalCard__Location">
+                                    <div class="MedicalCard__Title--subTitle">Country: {{ patient[0]['country'] }}</div>
+                                    <div class="MedicalCard__Title--wrapper">
+                                        <div class="MedicalCard__Title--icon">Phone: {{ patient[0]['phone'] }}</div>
+                                        <div class="MedicalCard__Title--subTitle"></div>
+                                    </div>
+                                </div>
+                                <div class="MedicalCard__Date">
+                                    <div class="MedicalCard__Title--subTitle">Valid From</div>
+                                    <div class="MedicalCard__Title--wrapper">
+                                        <div class="MedicalCard__Title--icon"></div>
+                                        <div class="MedicalCard__Title--title">{{ patient[0]['created_at'] }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div></div></div></div>
+                        <div class="col-md-12 ">
+                            <div class="card doctor-card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Appointment Form</h4>
+                                    <a href="#" class="doctor-name-btn">
+                                        <h5 style="text-transform: capitalize;">Doctor Name:<strong>Dr.{{ doctor[0]['first_name'] }} {{ doctor[0]['last_name'] }}</h5></strong>
+                                        <p class="card-text">Department:<strong> Radiologist</p></strong>
+                                    </a>
+                                   
+                                    <!-- Booking Form -->
+                                    <form method="post" action="/make_appointment">
+                                        <input type="hidden" name="patient_id" value="{{ patient[0]['id'] }}">
+                                        <input type="hidden" name="doctor_id" value="{{ doctor[0]['doc_id'] }}">
+                                        <input type="hidden" name="detection" value="{{ detection }}">
+                                        <input type="hidden" name="file_path" value="{{ file_path }}">
+                                        <div class="form-group">
+                                            <label for="appointment_date">Select Date:</label>
+                                            <input type="date" name="appointment_date" id="appointment_date" class="form-control" required>
+                                        </div>
+                                        <div id="available_slot_count" class="btn-outline-success"></div> 
+                                        
+                                        <div class="form-group">
+                                            <label for="appointment_time">Select Time: </label>
+                                            <select id="time_slots" name="appointment_time" class="form-control" required>
+                                                <!-- Available time slots will be dynamically populated here -->
+                                            </select>
+                                        </div>
+                                  
+                                
+                                                                        
+                                        <div class="form-group">
+                                            <label for="symptoms">Symptoms:</label>
+                                            <input type="text" name="symptoms" id="symptoms" name="symptoms" class="form-control" required>
+                                            <div id="symptomSuggestions"></div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Book Now</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div></div> </div><br></html>
+                    <!-- Your form HTML here -->
+                   
+                    <script>
+                        const availableSlots = {{ doctor_availability | tojson | safe }};
+                    
+                        document.addEventListener("DOMContentLoaded", function() {
+                            const dateInput = document.getElementById("appointment_date");
+                            const timeSlotsSelect = document.getElementById("time_slots");
+                            const availableSlotCount = document.getElementById("available_slot_count");
+                    
+                            dateInput.addEventListener("change", function() {
+                                const selectedDate = this.value;
+                                const selectedDateSlots = availableSlots[selectedDate];
+                    
+                                // Clear previous options and slot count
+                                timeSlotsSelect.innerHTML = "";
+                                availableSlotCount.textContent = "";
+                    
+                                if (selectedDateSlots) {
+                                    // Populate available time slots
+                                    for (const slot of selectedDateSlots) {
+                                        const option = document.createElement("option");
+                                        option.value = slot;
+                                        option.textContent = slot;
+                                        timeSlotsSelect.appendChild(option);
+                                    }
+                                    
+                                    // Display available slot count
+                                    availableSlotCount.textContent = `Available slots: ${selectedDateSlots.length}`;
+                                }
+                            });
+                        });
+                    </script>
+                        
+                       
+                        <script>
+                            // Predefined list of symptoms for suggestion
+                            const predefinedSymptoms = [
+                                "Headache",
+                                "Nausea",
+                                "Dizziness",
+                                "Fatigue",
+                                "Blurred Vision",
+                                "Memory Problems",
+                                "Seizures",
+                                "Difficulty Walking",
+                                "Loss of Appetite",
+                                "Muscle Weakness",
+                                "Fever",
+                                "Cough",
+                                "Shortness of Breath",
+                                "Chest Pain",
+                                "Joint Pain",
+                                "Abdominal Pain",
+                                "Constipation",
+                                "Diarrhea",
+                                "Sore Throat",
+                                "Rash",
+                                "Swelling",
+                                "Bleeding",
+                                "Bruising",
+                                "Numbness",
+                                "Tingling Sensation",
+                                "Unexplained Weight Loss",
+                                "Night Sweats",
+                                "Chills",
+                                "Difficulty Swallowing",
+                                "Sudden Weight Gain",
+                                "Frequent Urination",
+                                "Bloody Stools",
+                                "Changes in Skin Color",
+                                "Hair Loss",
+                                "Mood Changes",
+                                "Chest Tightness",
+                                "Trouble Sleeping",
+                                "Cognitive Impairment",
+                                "Painful Urination",
+                                "Joint Swelling",
+                                "Unsteady Gait",
+                                "Swollen Lymph Nodes",
+                                "Vomiting Blood",
+                                "Loss of Balance",
+                                "Fainting Spells",
+                                // Add more symptoms here...
+                            ];
+
+                                                    
+                            const symptomsInput = document.getElementById('symptoms');
+                            const symptomSuggestionsDiv = document.getElementById('symptomSuggestions');
+                        
+                            symptomsInput.addEventListener('input', function () {
+                                const input = symptomsInput.value;
+                                if (input.length === 0) {
+                                    symptomSuggestionsDiv.innerHTML = '';
+                                } else {
+                                    const filteredSuggestions = predefinedSymptoms.filter(symptom =>
+                                        symptom.toLowerCase().includes(input.toLowerCase())
+                                    );
+                        
+                                    let suggestionsHTML = '';
+                                    for (const suggestion of filteredSuggestions) {
+                                        suggestionsHTML += `<div class="suggestion">${suggestion}</div>`;
+                                    }
+                                    symptomSuggestionsDiv.innerHTML = suggestionsHTML;
+                                }
+                            });
+                        
+                            symptomSuggestionsDiv.addEventListener('click', function (event) {
+                                const selectedSuggestion = event.target.textContent;
+                                if (selectedSuggestion) {
+                                    symptomsInput.value = selectedSuggestion;
+                                    symptomSuggestionsDiv.innerHTML = '';
+                                }
+                            });
+                        </script>
+
+                        
+                        
+
+
+                            <!-- Add Bootstrap JS and jQuery (if needed) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static',filename='../static/assets/js/jquery-3.2.1.min.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/popper.min.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/bootstrap.min.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/jquery.slimscroll.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/Chart.bundle.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/chart.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/app.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

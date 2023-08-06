@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patients</title>
+</head>
+<body>
+    <h1>Patients</h1>
+
+  
+    <table>
+        <thead>
+            <tr>
+                <th>Patient ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Date of Birth</th>
+                <!-- Add more table headers for other patient attributes -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in patients %}
+            <tr>
+                <td>{{ patient['patient_id'] }}</td>
+                <td>{{ patient['first_name'] }} {{ patient['last_name'] }}</td>
+                <td>{{ patient['email'] }}</td>
+                <td>{{ patient['date_of_birth'] }}</td>
+                <!-- Add more table cells for other patient attributes -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

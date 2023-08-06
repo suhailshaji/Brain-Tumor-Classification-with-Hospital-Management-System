@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- index22:59-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  
+    <link rel="shortcut" type="image/x-icon"  href= "{{ url_for('static',filename='../static/assets/img/favicon.ico') }}">
+    <title>Hospital Management System</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/assets/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/assets/css/font-awesome.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/assets/css/style.css')}}">
+    <!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.min.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="header">
+			<div class="header-left">
+				<a href="#" class="logo">
+					<img src="{{ url_for('static',filename='../static/assets/img/logo.png')}}" width="35" height="35" alt=""> <span>HMS</span>
+				</a>
+			</div>
+			<a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+                <li class="nav-item dropdown d-none d-sm-block">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right">3</span></a>
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div class="drop-scroll">
+                            <ul class="notification-list">
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">
+												<img alt="John Doe" src="{{ url_for('static',filename='../static/assets/img/user.jpg')}}" class="img-fluid">
+											</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
+												<p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">V</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
+												<p class="noti-time"><span class="notification-time">6 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">L</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
+												<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">G</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
+												<p class="noti-time"><span class="notification-time">12 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">V</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
+												<p class="noti-time"><span class="notification-time">2 days ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="topnav-dropdown-footer">
+                            <a href="activities.html">View all Notifications</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown d-none d-sm-block">
+                    <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right">8</span></a>
+                </li>
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                        <span class="user-img">
+							<img class="rounded-circle" src="{{ url_for('static',filename='../static/assets/img/user.jpg')}}" width="24" alt="Admin">
+							<span class="status online"></span>
+						</span>
+						<span>Admin</span>
+                    </a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="profile.html">My Profile</a>
+						<a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+						<a class="dropdown-item" href="settings.html">Settings</a>
+						<a class="dropdown-item" href="login.html">Logout</a>
+					</div>
+                </li>
+            </ul>
+            <div class="dropdown mobile-user-menu float-right">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="profile.html">My Profile</a>
+                    <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+                    <a class="dropdown-item" href="settings.html">Settings</a>
+                    <a class="dropdown-item" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">Main</li>
+                        <li >
+                            <a href="/admin_dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+						<li >
+                            <a href="/admin_doctor"><i class="fa fa-user-md"></i> <span>Doctors</span></a>
+                        </li>
+                        <li >
+                            <a href="/admin_patient"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
+                        </li>
+                        <!-- <li>
+                            <a href="appointments.html"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
+                        </li>
+                        <li>
+                            <a href="schedule.html"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a>
+                        </li> -->
+                        <li>
+                            <a href="/deparment_home"><i class="fa fa-hospital-o"></i> <span>Departments</span></a>
+                        </li>
+                        <li class="active" >
+                            <a href="/admin_receptionist"><i class="fa fa-columns"></i> <span>Receptionist</span></a>
+                        </li>
+						<!-- <li class="submenu">
+							<a href="#"><i class="fa fa-user"></i> <span> Employees </span> <span class="menu-arrow"></span></a>
+							<ul style="display: none;">
+								<li><a href="employees.html">Employees List</a></li>
+								<li><a href="leaves.html">Leaves</a></li>
+								<li><a href="holidays.html">Holidays</a></li>
+								<li><a href="attendance.html">Attendance</a></li>
+							</ul>
+						</li>
+						<li class="submenu">
+							<a href="#"><i class="fa fa-money"></i> <span> Accounts </span> <span class="menu-arrow"></span></a>
+							<ul style="display: none;">
+								<li><a href="invoices.html">Invoices</a></li>
+								<li><a href="payments.html">Payments</a></li>
+								<li><a href="expenses.html">Expenses</a></li>
+								<li><a href="taxes.html">Taxes</a></li>
+								<li><a href="provident-fund.html">Provident Fund</a></li>
+							</ul>
+						</li>
+						<li class="submenu">
+							<a href="#"><i class="fa fa-book"></i> <span> Payroll </span> <span class="menu-arrow"></span></a>
+							<ul style="display: none;">
+								<li><a href="salary.html"> Employee Salary </a></li>
+								<li><a href="salary-view.html"> Payslip </a></li>
+							</ul>
+						</li>
+                        <li>
+                            <a href="chat.html"><i class="fa fa-comments"></i> <span>Chat</span> <span class="badge badge-pill bg-primary float-right">5</span></a>
+                        </li>
+                        <li class="submenu">
+                            <a href="#"><i class="fa fa-video-camera camera"></i> <span> Calls</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="voice-call.html">Voice Call</a></li>
+                                <li><a href="video-call.html">Video Call</a></li>
+                                <li><a href="incoming-call.html">Incoming Call</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="#"><i class="fa fa-envelope"></i> <span> Email</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="compose.html">Compose Mail</a></li>
+                                <li><a href="inbox.html">Inbox</a></li>
+                                <li><a href="mail-view.html">Mail View</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="#"><i class="fa fa-commenting-o"></i> <span> Blog</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="blog.html">Blog</a></li>
+                                <li><a href="blog-details.html">Blog View</a></li>
+                                <li><a href="add-blog.html">Add Blog</a></li>
+                                <li><a href="edit-blog.html">Edit Blog</a></li>
+                            </ul>
+                        </li>
+						<li>
+							<a href="assets.html"><i class="fa fa-cube"></i> <span>Assets</span></a>
+						</li>
+						<li>
+							<a href="activities.html"><i class="fa fa-bell-o"></i> <span>Activities</span></a>
+						</li>
+						<li class="submenu">
+							<a href="#"><i class="fa fa-flag-o"></i> <span> Reports </span> <span class="menu-arrow"></span></a>
+							<ul style="display: none;">
+								<li><a href="expense-reports.html"> Expense Report </a></li>
+								<li><a href="invoice-reports.html"> Invoice Report </a></li>
+							</ul>
+						</li>
+                        <li>
+                            <a href="settings.html"><i class="fa fa-cog"></i> <span>Settings</span></a>
+                        </li>
+                        <li class="menu-title">UI Elements</li>
+                        <li class="submenu">
+                            <a href="#"><i class="fa fa-laptop"></i> <span> Components</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="uikit.html">UI Kit</a></li>
+                                <li><a href="typography.html">Typography</a></li>
+                                <li><a href="tabs.html">Tabs</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="#"><i class="fa fa-edit"></i> <span> Forms</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="form-basic-inputs.html">Basic Inputs</a></li>
+                                <li><a href="form-input-groups.html">Input Groups</a></li>
+                                <li><a href="form-horizontal.html">Horizontal Form</a></li>
+                                <li><a href="form-vertical.html">Vertical Form</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="#"><i class="fa fa-table"></i> <span> Tables</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="tables-basic.html">Basic Tables</a></li>
+                                <li><a href="tables-datatables.html">Data Table</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="calendar.html"><i class="fa fa-calendar"></i> <span>Calendar</span></a>
+                        </li>
+                        <li class="menu-title">Extras</li>
+                        <li class="submenu">
+                            <a href="#"><i class="fa fa-columns"></i> <span>Pages</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a href="login.html"> Login </a></li>
+                                <li><a href="register.html"> Register </a></li>
+                                <li><a href="forgot-password.html"> Forgot Password </a></li>
+                                <li><a href="change-password2.html"> Change Password </a></li>
+                                <li><a href="lock-screen.html"> Lock Screen </a></li>
+                                <li><a href="profile.html"> Profile </a></li>
+                                <li><a href="gallery.html"> Gallery </a></li>
+                                <li><a href="error-404.html">404 Error </a></li>
+                                <li><a href="error-500.html">500 Error </a></li>
+                                <li><a href="blank-page.html"> Blank Page </a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="javascript:void(0);"><i class="fa fa-share-alt"></i> <span>Multi Level</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li class="submenu">
+                                    <a href="javascript:void(0);"><span>Level 1</span> <span class="menu-arrow"></span></a>
+                                    <ul style="display: none;">
+                                        <li><a href="javascript:void(0);"><span>Level 2</span></a></li>
+                                        <li class="submenu">
+                                            <a href="javascript:void(0);"> <span> Level 2</span> <span class="menu-arrow"></span></a>
+                                            <ul style="display: none;">
+                                                <li><a href="javascript:void(0);">Level 3</a></li>
+                                                <li><a href="javascript:void(0);">Level 3</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="javascript:void(0);"><span>Level 2</span></a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);"><span>Level 1</span></a> -->
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="page-wrapper">
+            <div class="content">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2">
+                        <h4 class="page-title">Add Receptionist</h4>
+                    </div>
+                </div>
+               
+                            <div class="row">
+                                <div class="col-lg-8 offset-lg-2">
+                                    <form action="/create_receptionist" method="POST"   enctype ="multipart/form-data">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>First Name <span class="text-danger">*</span></label>
+                                                    <input class="form-control" type="text" name="first_name">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Last Name</label>
+                                                    <input class="form-control" type="text" name="last_name">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Email <span class="text-danger">*</span></label>
+                                                    <input class="form-control" type="email" name="email">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>
+                                                        Password
+                                                        <i class="far fa-eye toggle-password-btn"></i>
+                                                    </label>
+                                                    <div class="input-group">
+                                                        <input type="password" class="form-control" id="password-input"  name="password">
+                                                        <div class="input-group-append">
+                                                            <button type="button" class="btn btn-primary generate-password-btn">
+                                                                <i class="fas fa-random"></i> Generate
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <small id="password-info" class="form-text text-muted"></small>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Date of Birth</label>
+                                                    <div class="cal-icon">
+                                                        <input type="text" class="form-control" name="date_of_birth" id="date_of_birth_input">
+                                                    </div>
+                                                    <div id="dob_formatted"></div>
+                                             
+                                                </div>
+                                              
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group gender-select">
+                                                    <label class="gen-label">Gender:</label>
+                                                    <div class="form-check-inline">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" name="gender"  class="form-check-input" value="Male">Male
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check-inline">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" name="gender" class="form-check-input" value="Female">Female
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label>Address</label>
+                                                            <input type="text" class="form-control" name="address">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 col-md-6 col-lg-3">
+                                                        <div class="form-group">
+                                                            <label>Country</label>
+                                                            <select class="form-control select" name="country" id="country-select">
+                                                                <option value="India">India</option>
+                                                                <option value="USA">USA</option>
+                                                                <option value="UK">United Kingdom</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 col-md-6 col-lg-3">
+                                                        <div class="form-group">
+                                                            <label>City</label>
+                                                        <select class="form-control select" id="city-select" name="city">
+                                                            <option value="">Select City</option>
+                                                        </select>
+                                                 </div></div>
+                                                    <div class="col-sm-6 col-md-6 col-lg-3">
+                                                        <div class="form-group">
+                                                            <label>State/Province</label>
+                                                             <select class="form-control select" name="state" id="state-select">
+                                                        <option value="">Select State/Province</option>
+                                                    </select>
+                                                    </div>
+                                                    </div>
+                                                    <div class="col-sm-6 col-md-6 col-lg-3">
+                                                        <div class="form-group">
+                                                            <label id="postcode-label">Postal Code</label>
+                                                            <input type="text" class="form-control" name="postal_code">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Add a new address field for countries other than India -->
+                                            <div class="col-sm-12" id="address-extra-field">
+                                                <div class="form-group">
+                                                    <label><img src="{{ url_for('static',filename='../static/assets/img/indian_flag.png')}}" height=25px width=25px  alt="Indian Flag" class="country-flag">&nbsp;Local Address</label>
+                                                    <input type="text" class="form-control" name="additional_address">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Phone Number</label>
+                                                    <div class="input-group">
+                                                      
+                                                        <span class="input-group-text" id="phone-code">+1</span>
+                                                        <input type="text" class="form-control" id="phone-input" name="phone">
+                                                    </div>
+                                                
+                                      
+                                        </div>
+                                       
+                                        <div class="form-group">
+                                            <label class="display-block">Status</label>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="status" id="patient_active" value="Active" checked>
+                                                <label class="form-check-label" for="patient_active">
+                                                    Active
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="status" id="patient_inactive" value="Inactive">
+                                                <label class="form-check-label" for="patient_inactive">
+                                                    Inactive
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="m-t-20 text-center">
+                                            <button class="btn btn-primary submit-btn">Create Receptionist</button>
+                                        </div>
+            
+                                      
+                                    </form>
+                    </div>
+                </div>
+            </div>
+			<div class="notification-box">
+                <div class="msg-sidebar notifications msg-noti">
+                    <div class="topnav-dropdown-header">
+                        <span>Messages</span>
+                    </div>
+                    <div class="drop-scroll msg-list-scroll" id="msg_list">
+                        <ul class="list-box">
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">R</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author">Richard Miles </span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item new-message">
+                                        <div class="list-left">
+                                            <span class="avatar">J</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author">John Doe</span>
+                                            <span class="message-time">1 Aug</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">T</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author"> Tarah Shropshire </span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">M</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author">Mike Litorus</span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">C</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author"> Catherine Manseau </span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">D</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author"> Domenic Houston </span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">B</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author"> Buster Wigton </span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">R</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author"> Rolland Webber </span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">C</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author"> Claire Mapes </span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">M</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author">Melita Faucher</span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">J</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author">Jeffery Lalor</span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">L</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author">Loren Gatlin</span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="chat.html">
+                                    <div class="list-item">
+                                        <div class="list-left">
+                                            <span class="avatar">T</span>
+                                        </div>
+                                        <div class="list-body">
+                                            <span class="message-author">Tarah Shropshire</span>
+                                            <span class="message-time">12:28 AM</span>
+                                            <div class="clearfix"></div>
+                                            <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="topnav-dropdown-footer">
+                        <a href="chat.html">See all messages</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="sidebar-overlay" data-reff=""></div>
+<script src="{{ url_for('static',filename='../static/assets/js/jquery-3.2.1.min.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/popper.min.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/bootstrap.min.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/jquery.slimscroll.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/Chart.bundle.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/chart.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/app.js')}}"></script>
+
+
+<script>
+    // JavaScript code to update state dropdown options based on selected country
+
+    // Define the state options for India
+    
+    // JavaScript code to update state dropdown options based on selected country
+
+    const countryStates = {
+        "USA": [
+            'California', 'Alaska', 'Alabama'
+        ],
+        "United Kingdom": [
+            'England', 'Scotland', 'Wales', 'Northern Ireland'
+        ],
+        "India": [
+            'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat',
+            'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh',
+            'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab',
+            'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh',
+            'Uttarakhand', 'West Bengal'
+        ],
+        // Add more countries and their respective states here
+    };
+
+     // Function to update state options based on the selected country
+     function updateStateOptions() {
+        const countrySelect = document.getElementById('country-select');
+        const stateSelect = document.getElementById('state-select');
+        const selectedCountry = countrySelect.value;
+
+        // Clear previous state options
+        stateSelect.innerHTML = '';
+
+        if (selectedCountry in countryStates) {
+            // Add states for the selected country as options
+            const states = countryStates[selectedCountry];
+            for (let i = 0; i < states.length; i++) {
+                const option = document.createElement('option');
+                option.text = states[i];
+                stateSelect.add(option);
+            }
+        } else {
+            // Add a default option for other countries
+            const option = document.createElement('option');
+            option.text = 'Select State/Province';
+            stateSelect.add(option);
+        }
+    }
+
+    // Attach event listener to country dropdown
+    const countrySelect = document.getElementById('country-select');
+    countrySelect.addEventListener('change', updateStateOptions);
+
+    // Initial call to update state options based on the default country selection
+    updateStateOptions();
+
+
+
+
+     // JavaScript code to populate city dropdown based on selected country
+
+     const countryCities = {
+            "USA": [
+                'New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia', 'San Antonio'
+            ],
+            "United Kingdom": [
+                'London', 'Birmingham', 'Manchester', 'Edinburgh', 'Glasgow', 'Bristol', 'Liverpool'
+            ],
+            "India": [
+                'Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai', 'Kolkata', 'Ahmedabad'
+            ],
+            // Add more countries and their respective cities here
+        };
+
+        // Function to populate city options based on the selected country
+        function populateCityOptions() {
+            const countrySelect = document.getElementById('country-select');
+            const citySelect = document.getElementById('city-select');
+            const selectedCountry = countrySelect.value;
+
+            // Clear previous city options
+            citySelect.innerHTML = '';
+
+            if (selectedCountry in countryCities) {
+                // Add cities for the selected country as options
+                const cities = countryCities[selectedCountry];
+                for (let i = 0; i < cities.length; i++) {
+                    const option = document.createElement('option');
+                    option.text = cities[i];
+                    citySelect.add(option);
+                }
+            } else {
+                // Add a default option for other countries
+                const option = document.createElement('option');
+                option.text = 'Select City';
+                citySelect.add(option);
+            }
+        }
+
+        // Attach event listener to country dropdown
+     
+        countrySelect.addEventListener('change', populateCityOptions);
+
+        // Initial call to populate city options based on the default country selection
+        populateCityOptions();
+
+
+
+         // Function to update label text based on the selected country
+         function updateLabel() {
+            const countrySelect = document.getElementById('country-select');
+            const postcodeLabel = document.getElementById('postcode-label');
+            const selectedCountry = countrySelect.value;
+
+            if (selectedCountry === 'India') {
+                postcodeLabel.innerText = 'Postal Code';
+            } else {
+                postcodeLabel.innerText = 'Zip Code';
+            }
+        }
+
+        // Attach event listener to country dropdown
+     
+        countrySelect.addEventListener('change', updateLabel);
+
+        // Initial call to update label text based on the default country selection
+        updateLabel();
+
+
+        // JavaScript code to show/hide additional address field based on selected country
+
+        // Function to show/hide additional address field based on the selected country
+        function toggleAdditionalAddressField() {
+            const countrySelect = document.getElementById('country-select');
+            const additionalAddressField = document.getElementById('address-extra-field');
+            const selectedCountry = countrySelect.value;
+
+            if (selectedCountry === 'India') {
+                additionalAddressField.style.display = 'none';
+            } else {
+                additionalAddressField.style.display = 'block';
+            }
+        }
+
+        // Attach event listener to country dropdown
+     
+        countrySelect.addEventListener('change', toggleAdditionalAddressField);
+
+        // Initial call to show/hide additional address field based on the default country selection
+        toggleAdditionalAddressField();
+
+
+        // JavaScript code to populate phone number code based on selected country
+
+        // Object to map country codes to phone number codes
+        const phoneCodes = {
+            'USA': '+1',
+            'United Kingdom': '+44',
+            'India': '+91',
+            // Add more country codes as needed
+        };
+
+        // Function to update phone number code based on selected country
+        function updatePhoneCode() {
+            const countrySelect = document.getElementById('country-select');
+            const phoneCode = document.getElementById('phone-code');
+            const selectedCountry = countrySelect.value;
+
+            phoneCode.textContent = phoneCodes[selectedCountry];
+        }
+
+        // Attach event listener to country dropdown
+      
+        countrySelect.addEventListener('change', updatePhoneCode);
+
+        // Initial call to populate phone number code based on the default country selection
+        updatePhoneCode();
+
+
+        // JavaScript code to generate a random password and toggle password visibility
+
+        // Function to generate a random password
+        function generatePassword() {
+            const length = 10; // Desired password length
+            const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()'; // Characters to include in the password
+            let password = '';
+
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * charset.length);
+                password += charset.charAt(randomIndex);
+            }
+
+            return password;
+        }
+
+        // Function to display the generated password in the input field and label
+        function displayGeneratedPassword() {
+            const passwordInput = document.getElementById('password-input');
+            const passwordInfo = document.getElementById('password-info');
+            const generatedPassword = generatePassword();
+
+            passwordInput.value = generatedPassword;
+            passwordInfo.textContent = 'Generated Password: ' + generatedPassword;
+        }
+
+        // Function to toggle password visibility
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password-input');
+            const togglePasswordBtn = document.querySelector('.toggle-password-btn');
+            const isPasswordVisible = passwordInput.type === 'text';
+
+            passwordInput.type = isPasswordVisible ? 'password' : 'text';
+            togglePasswordBtn.classList.toggle('active');
+        }
+
+        // Attach event listener to the "Generate Password" button
+        const generatePasswordBtn = document.querySelector('.generate-password-btn');
+        generatePasswordBtn.addEventListener('click', displayGeneratedPassword);
+
+        // Attach event listener to the toggle password button
+        const togglePasswordBtn = document.querySelector('.toggle-password-btn');
+        togglePasswordBtn.addEventListener('click', togglePasswordVisibility);
+
+            // Get the input field
+    var dateOfBirthInput = document.getElementById('date_of_birth_input');
+
+        // Add event listener for input change
+        dateOfBirthInput.addEventListener('input', function(e) {
+            // Remove any existing hyphens from the input value
+            var cleanedValue = this.value.replace(/-/g, '');
+        
+            // Check if the cleaned value has a length greater than 2
+            if (cleanedValue.length > 2) {
+                // Insert hyphens at appropriate positions (e.g., dd-mm-yyyy)
+                var formattedValue = cleanedValue.slice(0, 2) + '-' + cleanedValue.slice(2, 4) + '-' + cleanedValue.slice(4, 8);
+            
+                // Update the input value with the formatted value
+                this.value = formattedValue;
+            }
+        });
+
+    
+    var dateOfBirthInput = document.getElementById('date_of_birth_input');
+    
+    // Get the element to display formatted DOB
+    var dobFormatted = document.getElementById('dob_formatted');
+    
+    // Add event listener for input change
+    dateOfBirthInput.addEventListener('input', function(e) {
+        // Remove any existing hyphens from the input value
+        var cleanedValue = this.value.replace(/-/g, '');
+      
+        // Check if the cleaned value has a length greater than 2
+        if (cleanedValue.length > 2) {
+            // Insert hyphens at appropriate positions (e.g., dd-mm-yyyy)
+            var formattedValue = cleanedValue.slice(0, 2) + '-' + cleanedValue.slice(2, 4) + '-' + cleanedValue.slice(4, 8);
+          
+            // Update the input value with the formatted value
+            this.value = formattedValue;
+            
+            // Format and display the DOB below the input field
+            var dateObj = new Date(cleanedValue.slice(4, 8), parseInt(cleanedValue.slice(2, 4)) - 1, cleanedValue.slice(0, 2));
+            var formattedDOB = dateObj.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+            dobFormatted.textContent = formattedDOB;
+        } else {
+            // Clear the DOB display if the input is incomplete
+            dobFormatted.textContent = '';
+        }
+    });
+        
+        
+</script>
+</body>
+
+
+<!-- index22:59-->
+</html>

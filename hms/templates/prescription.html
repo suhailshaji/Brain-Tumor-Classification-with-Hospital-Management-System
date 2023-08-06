@@ -1,0 +1,109 @@
+<!-- prescription.html -->
+<!-- <div class="modal-body">
+    <div id="prescriptionContent">
+
+        <p><strong>Doctor Name:</strong> Dr. {{ doctor_name }}</p>
+        <p><strong>Patient Name:</strong> {{ patient_name }}</p>
+        <p><strong>Medicine:</strong> {{ medicine }}</p>
+        <p><strong>Diagnosis:</strong> {{ diagnosis }}</p>
+
+    </div>
+</div> -->
+
+<style>
+    /* Styles for the prescription content */
+    #prescriptionContent {
+        font-family: Arial, sans-serif;
+        max-width: 400px;
+        margin: 0 auto;
+        text-align: center;
+        padding: 20px;
+    }
+
+    #header {
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        font-size: 24px;
+        margin: 5px 0;
+    }
+
+    h3, h4 {
+        font-size: 18px;
+        margin: 10px 0;
+    }
+
+    #patientInfo, #doctorInfo {
+        margin-bottom: 10px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: 5px;
+    }
+
+    /* Styles for the printed prescription */
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        #prescriptionContent,
+        #prescriptionContent * {
+            visibility: visible;
+        }
+
+        #prescriptionContent {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+</style>
+<div class="modal-body">
+<div id="prescriptionModal">
+    <div id="prescriptionContent">
+        <!-- Medical Bill Header -->
+        <div id="header">
+
+            <h2>Hospital Name</h2>
+            <p>Address | City | Country</p>
+        </div>
+
+        <!-- Patient and Prescription Details -->
+        <div id="patientInfo">
+            <h3>Medical Prescription</h3>
+            <p><strong>Patient Name:</strong> {{ patient_name }}</p>
+        </div>
+
+        <div id="medicineDetails">
+            <h4>Medicine Details:</h4>
+            <ul>
+                <li> {{ medicine }}</li>
+            
+                <!-- Add more medicine items as needed -->
+            </ul>
+        </div>
+
+        <div id="doctorInfo">
+            <h4>Doctor Name:</h4>
+            <p>{{ doctor_name }}</p>
+        </div>
+
+        <div id="doctorInfo">
+            <h4>Diagnosis</h4>
+            <p>{{ diagnosis }}</p>
+        </div>
+
+        <!-- Hospital Seal -->
+        <div id="seal">
+           
+        </div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- index22:59-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  
+    <link rel="shortcut" type="image/x-icon"  href= "{{ url_for('static',filename='../static/assets/img/favicon.ico') }}">
+    <title>Hospital Management System</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/assets/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/assets/css/font-awesome.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../static/assets/css/style.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+
+    <!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.min.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+	<![endif]-->
+</head>
+<style>
+/* Custom CSS to remove the modal backdrop overlay */
+.modal-backdrop {
+        display: none;
+    }
+
+    /* Custom CSS for the modal content */
+    #prescriptionContent {
+        padding: 20px;
+        background-color: #fff; /* Change the background color to your desired color */
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Add a subtle shadow effect to the modal */
+        border-radius: 10px; /* Add rounded corners to the modal */
+    }
+
+    /* Custom CSS for the modal title */
+    #prescriptionModal .modal-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    /* Custom CSS for the prescription details */
+    #prescriptionContent p {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    #dob_formatted {
+        color: green;
+    }
+    .doctor-card {
+        border: 1px solid #f1f1f1;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .doctor-card:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .doctor-card .card-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .doctor-card .card-text {
+        margin-bottom: 10px;
+    }
+
+    .doctor-card .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        padding: 5px 15px;
+    }
+
+    .doctor-card .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+    .MedicalCard__Container {
+            background-color: #0D456D;
+            background-image: linear-gradient(-90deg, #0D456D, #105C90);
+            box-shadow: 0 8px 6px 0 rgba(0, 0, 0, 0.1);
+            width: 550px;
+            height: 250px;
+            border: 1px solid;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            font-size: 20px;
+            padding: 25px;
+            text-transform: capitalize;
+        }
+    .MedicalCard__Row {
+        display: flex;
+    }
+
+    .MedicalCard__Row:nth-child(2) {
+        flex: 1;
+        border-top: 1px solid black;
+    }
+
+    .MedicalCard__Title {
+        flex: 2;
+        white-space: nowrap;
+    }
+
+    .MedicalCard__TimeTo, .MedicalCard__Location, .MedicalCard__Date {
+        flex: 1;
+    }
+
+    .MedicalCard__Location, .MedicalCard__Date {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    .MedicalCard__Title--container {
+        display: flex;
+    }
+
+    .MedicalCard__Title--wrapper {
+        font-size: 22px;
+       
+    }
+
+    .MedicalCard__TimeTo {
+        height: 24px;
+        border-radius: 10px;
+        text-align: center;
+       
+    }
+    .doctor-name-btn {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-bottom: 15px; /* Add some vertical spacing */
+}
+  /* New styles for the outlined button */
+  .doctor-name-btn {
+        background-color: transparent;
+        color: #007bff;
+        border: 2px solid #007bff;
+        padding: 10px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .doctor-name-btn:hover {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+ 
+    #dob_formatted {
+        color: green;
+    }
+    .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 800px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        .img-class {
+            width: 100%;
+            height: auto;
+        }
+        .close {
+            position: absolute;
+            top: 80px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+
+        #prescriptionContent {
+        font-family: Arial, sans-serif;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    strong {
+        font-weight: bold;
+    }
+
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        #prescriptionContent,
+        #prescriptionContent * {
+            visibility: visible;
+        }
+
+        #prescriptionContent {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        /* Adjust the size of the printed prescription */
+        @page {
+            size: A4;
+            margin: 1cm;
+        }
+    }
+</style>
+
+
+</style>
+<div class="main-wrapper">
+    <div class="header">
+        <div class="header-left">
+            <a href="index-2.html" class="logo">
+                <img src="{{ url_for('static',filename='../static/assets/img/logo.png')}}" width="35" height="35" alt=""> <span>HMS</span>
+            </a>
+        </div>
+        <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
+            <ul class="nav user-menu float-right">
+                <li class="nav-item dropdown d-none d-sm-block">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right">3</span></a>
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div class="drop-scroll">
+                            <ul class="notification-list">
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">
+												<img alt="John Doe" src="{{ url_for('static',filename='../static/assets/img/user.jpg')}}" class="img-fluid">
+											</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
+												<p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">V</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
+												<p class="noti-time"><span class="notification-time">6 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">L</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
+												<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">G</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
+												<p class="noti-time"><span class="notification-time">12 mins ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="notification-message">
+                                    <a href="activities.html">
+                                        <div class="media">
+											<span class="avatar">V</span>
+											<div class="media-body">
+												<p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
+												<p class="noti-time"><span class="notification-time">2 days ago</span></p>
+											</div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="topnav-dropdown-footer">
+                            <a href="activities.html">View all Notifications</a>
+                        </div>
+                    </div>
+                </li>
+        <li class="nav-item dropdown d-none d-sm-block">
+            <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right">8</span></a>
+        </li>
+        <li class="nav-item dropdown has-arrow">
+            <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
+                <span class="user-img">
+                    <img class="rounded-circle" src="{{ url_for('static',filename='../static/assets/img/user.jpg')}}" width="24" alt="Admin">
+                    <span class="status online"></span>
+                </span>
+                <span>Patient Login</span>
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/edit_profile_patient">Edit Profile</a>
+
+                <a class="dropdown-item" href="/login">Logout</a>
+            </div>
+        </li>
+    </ul>
+    <div class="dropdown mobile-user-menu float-right">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="profile.html">My Profile</a>
+            <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
+            <a class="dropdown-item" href="settings.html">Settings</a>
+            <a class="dropdown-item" href="/login">Logout</a>
+        </div>
+    </div>
+</div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">Main</li>
+                        <li >
+                            <a href="/patient_home"><i class="fa fa-user"></i> <span>Appointment</span></a>
+                        </li>
+						<li >
+                            <a href="/online_lab"><i class="fa fa-user-md"></i> <span>Online Lab</span></a>
+                        </li>
+                       
+                        <li class="active">
+                            <a href="/myappointment"><i class="fa fa-user-md"></i> <span>My Appointment</span></a>
+                        </li>
+                    
+                      
+                    </li> 
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+<div class="page-wrapper">
+    <div class="content">
+    
+
+<h1>My Appointments</h1>
+<div class="appointments-list">
+
+    <div class="row">
+        <div class="col-12 col-md-8 col-lg-8 col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title d-inline-block"> Appointments</h4> 
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <thead class="d-none">
+                                <tr>
+                                    <th>Patient Name</th>
+                                    <th>Doctor Name</th>
+                                    <th>Timing</th>
+                                    <th>Symptoms</th>
+                                    <th>MRI Report</th>
+                                    <th>View MRI</th>
+                                    <th>Prescription</th>
+                                    <th class="text-right">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for appointment in appointment %}
+                                <tr>
+                                    <td style="min-width: 200px;">
+                                        <a class="avatar" >{{ appointment['appointment_id'] }}</a>
+                                        <h2><a style="text-transform: capitalize;" href="#">Dr .{{ appointment['first_name'] }} {{ appointment['last_name'] }} <span>{{ appointment.country }}</span></a></h2>
+                                    </td>                 
+                                    <td>
+                                        <h5 class="time-title p-0">Appointment On</h5>
+                                        <p>{{appointment['appointment_date']}}</p>
+                                    </td>
+                                    <td>
+                                        <h5 class="time-title p-0">Timing</h5>
+                                        <p>{{ appointment['appointment_time'] }} </p>
+                                    </td>
+                                    <td>
+                                        <h5 class="time-title p-0">Symptom</h5>
+                                        <p>{{ appointment['symptoms'] }} </p>
+                                    </td>
+                                    <td>
+                                        <h5 class="time-title p-0">MRI Report</h5>
+                                        {% if appointment['detection'] %}
+                                            <p style="text-transform: capitalize; color: red;">{{ appointment['detection'] }}</p>
+                                        {% else %}
+                                            <p>None</p>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if appointment['detection'] %}
+                                            <p><button class="btn btn-outline-warning" onclick="openModal('/static/MRI_images/{{ appointment['MRI_file_path'] }}')">View MRI</button></p>
+                                        {% endif %}</td><td>
+                                        {% if appointment['appointment_status'] == 'Closed' %}
+
+                                        <a href="/view_prescription_pdf?id={{appointment['appointment_id']}}"class="btn btn-outline-success take-btn">View Prescription</a>
+                                  
+
+                                        {% endif %}
+                                </td>
+                                {% if appointment['appointment_status'] == 'Active' %}
+                                <td>    <p><a href="/cancel_appointment?id={{appointment['appointment_id']}}" class="btn btn-outline-danger" >Cancel </a></p>
+                                    {% endif %}</td>
+                      
+                                <!-- Your other HTML content here -->
+                            <!-- Prescription Modal -->
+                            <div class="modal fade" id="prescriptionModal" tabindex="-1" role="dialog" aria-labelledby="prescriptionModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="prescriptionModalLabel">Prescription</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-content" id="prescriptionContent">
+                                            <!-- Prescription content will be dynamically updated here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                                    <!-- Your other HTML content here -->
+
+                                        
+                                    </td>
+                                  <!-- The modal -->
+                                <div id="myModal" class="modal">
+                                    <span class="close" onclick="closeModal()">&times;</span>
+                                    <div class="modal-content">
+                                        <img class="img-class" src="/static/MRI_images/{{ appointment['MRI_file_path'] }}" alt="MRI Image">
+                                    </div>
+                                </div>
+                
+                                <!-- <td class="text-right">
+                                    <a href="/get_appointment?appointment_id={{ appointment['appointment_id'] }}" class="btn btn-outline-primary take-btn">Take up</a>
+                                    </td>
+                                </tr> -->
+
+                                    </tr>
+
+                                    </tr>
+                                </tbody>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</body>
+</html>
+
+
+
+<script>
+    // Function to open the modal and set the image source
+    function openModal(imageSource) {
+        var modal = document.getElementById("myModal");
+        var modalImage = modal.querySelector(".img-class");
+        modalImage.src = imageSource;
+        modal.style.display = "block";
+    }
+
+    // Function to close the modal
+    function closeModal() {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "none";
+    }
+</script>
+
+
+<!-- Your other HTML content here -->
+
+<script>
+    // JavaScript function to handle the View Prescription button click
+    function viewPrescription(doctorName, patientName, medicine, diagnosis) {
+        // Set the content of the prescription modal
+        var prescriptionContent = document.getElementById("prescriptionContent");
+        prescriptionContent.innerHTML = `
+            <h1>Prescription</h1>
+            <p><strong>Doctor Name:</strong> Dr. ${doctorName}</p>
+            <p><strong>Patient Name:</strong> ${patientName}</p>
+            <p><strong>Medicine:</strong> ${medicine}</p>
+            <p><strong>Diagnosis:</strong> ${diagnosis}</p>
+            <button onclick="printPrescription()">Print</button>
+        `;
+
+        // Show the prescription modal
+        $('#prescriptionModal').modal('show');
+    }
+
+
+    function printPrescription() {
+        // Get the content of the prescription modal
+        var prescriptionContent = document.getElementById("prescriptionContent").innerHTML;
+
+        // Create a new window for printing
+        var printWindow = window.open('', );
+
+        // Write the prescription content to the new window
+        printWindow.document.write('<html><head><title>Medical Prescription</title></head><body>');
+        printWindow.document.write(prescriptionContent);
+        printWindow.document.write('</body></html>');
+
+        // Close the writing process
+        printWindow.document.close();
+
+        // Trigger the print function
+        printWindow.print();
+    }
+</script>
+
+<!-- Your other HTML content here -->
+
+<script src="{{ url_for('static',filename='../static/assets/js/jquery-3.2.1.min.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/popper.min.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/bootstrap.min.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/jquery.slimscroll.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/Chart.bundle.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/chart.js')}}"></script>
+<script src="{{ url_for('static',filename='../static/assets/js/app.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
+
+
